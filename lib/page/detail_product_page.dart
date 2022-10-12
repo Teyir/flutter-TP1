@@ -1,6 +1,8 @@
+import 'package:go_router/go_router.dart';
+
 import 'package:flutter/material.dart';
 
-import '../product_model.dart';
+import '../model/product_model.dart';
 
 class DetailProductPage extends StatelessWidget {
   final Product product;
@@ -10,40 +12,75 @@ class DetailProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(product.nom)),
-      body: Center(
-          child: Column(
+      appBar: AppBar(
+        title: Text(product.title),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Hero(
                 tag: product.id,
-                child: Image.network(
-                  product.image,
-                  width: 80,
-                  height: 80,
+                child: Center(
+                  child: ClipOval(
+                      child: Image.network(
+                    product.image,
+                    width: 200,
+                    height: 200,
+                  )),
                 )),
-            const Divider(),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("Description",
-                  textAlign: TextAlign.start,
-                  style: Theme.of(context).textTheme.headline6),
-            ),
-            Text(product.description),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text("Avis", style: Theme.of(context).textTheme.headline6),
-            ),
-            Text(product.description),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Caractéristiques",
-                style: Theme.of(context).textTheme.headline6,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Description",
+                        textAlign: TextAlign.start,
+                        style: Theme.of(context).textTheme.headline6),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(product.description),
+                  ),
+                ],
               ),
             ),
-            Text(product.description)
+            const Divider(),
+            InkWell(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child:
+                        Text("Avis", style: Theme.of(context).textTheme.headline6),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(product.description),
+                  ),
+                ],
+              ),
+              onTap: () => context.go('/detail/rating', extra: product),
+            ),
+            const Divider(),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Caractéristiques",
+                      style: Theme.of(context).textTheme.headline6),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(product.description),
+                ),
+              ],
+            ),
           ],
-      )),
+        ),
+      ),
     );
   }
 }
